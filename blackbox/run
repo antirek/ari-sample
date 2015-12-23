@@ -1,0 +1,9 @@
+#!/bin/bash
+
+docker run \
+ -v /etc/localtime:/etc/localtime:ro \
+ -v $(pwd)/store/etc/asterisk:/etc/asterisk \
+ -v $(pwd)/store/var/log/asterisk:/var/log/asterisk \
+ -v $(pwd)/store/var/menu:/var/menu/ \
+ --net=host \
+ -i -t "astolua:sample"

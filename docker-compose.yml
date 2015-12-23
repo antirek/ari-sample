@@ -1,0 +1,8 @@
+asterisk:
+    build: ./blackbox/
+    net: host
+    restart: always
+    volumes: 
+      - /etc/localtime:/etc/localtime:ro
+      - "./logs/asterisk/:/var/log/asterisk"
+      - "./store/etc/asterisk/:/etc/asterisk/"
