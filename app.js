@@ -38,7 +38,7 @@ function clientLoaded (err, client) {
         console.log('in answer');
 
         var playback = client.Playback();
-        channel.play({media: 'sound:tt-monkeys'},
+        channel.play({media: 'sound:beep'},
                       playback, function(err, newPlayback) {
           if (err) {
             throw err;
@@ -55,6 +55,22 @@ function clientLoaded (err, client) {
           var timer = setTimeout(hangup, 4000);
           timers[channel.id] = timer;
 
+          /*
+          channel.originate({endpoint: 'SIP/102', app: 'channel-state'})
+          .then(function (channel1) {
+            console.log('originate cool', channel1);
+            var bridge = ari.Bridge();
+            console.log('bridge', bridge);
+            bridge.create({type: 'mixing'})
+            .then(function (bridge){
+              console.log('bridge', bridge);
+              bridge.addChannel({channel: [channel1.id, channel.id]});
+              bridge.addChannel({channel:channel.id});
+            })
+            
+          })
+          .catch(function (err) {});
+          */
         };
         
       });
