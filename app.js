@@ -30,19 +30,35 @@ function clientLoaded (err, client) {
     // callback that will answer the channel
     function answer() {
       console.log(util.format('Answering channel %s', channel.name));
+      
       channel.answer(function(err) {
         if (err) {
           throw err;
         }
+        console.log('in answer');
+
+        var playback = client.Playback();
+        channel.play({media: 'sound:tt-monkeys'},
+                      playback, function(err, newPlayback) {
+          if (err) {
+            throw err;
+          }
+        });
+        playback.on('PlaybackFinished', playbackFinished);
+
+        function playbackFinished (event, completedPlayback) {
+          console.log(util.format(
+              'Monkeys successfully vanquished %s',
+              channel.name));          
+        
+          // hang up the channel in 4 seconds
+          var timer = setTimeout(hangup, 4000);
+          timers[channel.id] = timer;
+
+        };
+        
       });
-      channel.startSilence(function(err) {
-        if (err) {
-          throw err;
-        }
-      });
-      // hang up the channel in 4 seconds
-      var timer = setTimeout(hangup, 4000);
-      timers[channel.id] = timer;
+
     }
 
     // callback that will hangup the channel
